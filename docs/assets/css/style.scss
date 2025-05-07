@@ -3,7 +3,21 @@
 
 @import "{{ site.theme }}";
 
-/* Your existing custom CSS */
+/* Custom CSS */
+
+.ptn-cleantable { 
+}
+
+.ptn-for-sr { 
+   position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    left: -1900px;
+}
+
+
 
 /* Copy button styles */
 .copy-button {
