@@ -55,3 +55,4 @@ This component provides responsive, accessible HTML tables that work across devi
     <!-- More rows here -->
   </tbody>
 </table>
+```
