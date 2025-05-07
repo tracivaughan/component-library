@@ -9,6 +9,6 @@ Here you'll find components, guidelines, and resources to build consistent, acce
 
 ## Getting Started
 
-- [Component Library](/components/)
+- [Component Library](/components/index.md)
 - [Design Guidelines](/guidelines/)
 - [Installation Instructions](/installation/)
