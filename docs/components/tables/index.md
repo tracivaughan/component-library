@@ -35,8 +35,8 @@ This component provides responsive, accessible HTML tables that work across devi
 ### HTML Structure
 
 ```html
-<table class="ds-table ds-table-responsive">
-  <caption>Employee Information</caption>
+<table class="ptn-cleantable">
+  <caption class="for-sr">Employee Information</caption>
   <thead>
     <tr>
       <th scope="col">Name</th>
