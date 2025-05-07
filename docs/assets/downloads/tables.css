@@ -1,1 +1,26 @@
-tables css
+.ptn-cleantable { 
+width: 100%;
+border-collapse: collapse;
+background-color: white;
+}
+
+.ptn-cleantable th, 
+.ptn-cleantable td { 
+padding: .4rem .6rem; 
+} 
+
+.ptn-cleantable thead tr { 
+border-bottom: 1px solid gray; 
+} 
+
+.ptn-cleantable th { 
+text-align: left; 
+text-transform: uppercase; 
+font-weight: 400; 
+font-size: .9rem; 
+color: #666C76; 
+} 
+
+.ptn-cleantable tr:nth-child(even) { 
+background-color: #F4F7F7; 
+}
