@@ -19,7 +19,7 @@ This component provides responsive, accessible HTML tables that work across devi
 - When data relationships are very complex; often multiple simple tables can be a better solution
 - When the information can be appropriately presented as a list (for example, some search results)
 
-## Noteworthy Features
+## Key Features
 
 - Proper table markup with `<th>` elements for headers
 - ARIA labels for better screen reader navigation
