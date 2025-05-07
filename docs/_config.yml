@@ -1,5 +1,23 @@
-title: AITS Application Design Components
-description: Design guidelines and components for application development
-remote_theme: pages-themes/primer@v0.2.0
+title: AITS Application Components
+description: Accessible, modular components for application development and modernization
+
+# Use one of these supported themes (without the @version part)
+# theme: jekyll-theme-minimal
+# Alternative options:
+# theme: jekyll-theme-cayman
+# theme: jekyll-theme-slate
+# theme: jekyll-theme-tactile
+# theme: jekyll-theme-dinky
+theme: jekyll-theme-primer
+# theme: jekyll-theme-architect
+# theme: jekyll-theme-midnight
+# theme: jekyll-theme-minima
+# theme: jekyll-theme-hacker
+# theme: jekyll-theme-leap-day
+# theme: jekyll-theme-modernist
+# theme: jekyll-theme-time-machine
+
+# Standard plugins that are supported
 plugins:
-- jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
