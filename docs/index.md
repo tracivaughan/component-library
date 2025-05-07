@@ -3,9 +3,9 @@ layout: default
 title: Home
 ---
 
-# Your Design System
+# AITS Design Components
 
-Welcome to our comprehensive design system. Here you'll find components, guidelines, and resources to build consistent user experiences.
+Here you'll find components, guidelines, and resources to build consistent, accessible user experiences.
 
 ## Getting Started
 
