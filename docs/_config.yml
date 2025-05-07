@@ -1,6 +1,5 @@
 title: AITS Application Components
 description: Accessible, modular components for application development and modernization
-baseurl: "/docs"
 
 # Use one of these supported themes (without the @version part)
 # theme: jekyll-theme-minimal
