@@ -2,11 +2,13 @@
 width: 100%;
 border-collapse: collapse;
 background-color: white;
+margin-bottom: 1.5rem;
 }
 
 .ptn-cleantable th, 
 .ptn-cleantable td { 
-padding: .4rem .6rem; 
+  padding: .4rem .6rem; 
+  text-align: left;
 } 
 
 .ptn-cleantable thead tr { 
@@ -14,7 +16,6 @@ border-bottom: 1px solid gray;
 } 
 
 .ptn-cleantable th { 
-text-align: left; 
 text-transform: uppercase; 
 font-weight: 400; 
 font-size: .9rem; 
@@ -23,4 +24,40 @@ color: #666C76;
 
 .ptn-cleantable tr:nth-child(even) { 
 background-color: #F4F7F7; 
+}
+
+@media (max-width: 800px) {
+    .ptn-cleantable th {
+        display: none;
+    }
+
+    .ptn-cleantable th.rowhead {
+        display: block;
+    }
+
+    .ptn-cleantable td {
+        display: block;
+        padding: .5rem 1rem;
+    }
+
+    .ptn-cleantable thead tr {
+        border-bottom: none;
+    }
+
+    .ptn-cleantable td:before,
+    .ptn-cleantable th.rowhead:before {
+        content: attr(data-cell) " ";
+        font-weight: 700;
+
+    }
+
+    .ptn-cleantable td:first-child {
+        padding-top: 1rem;
+    }
+
+    .ptn-cleantable  td:last-child {
+        padding-bottom: 1rem;
+
+    }
+
 }
