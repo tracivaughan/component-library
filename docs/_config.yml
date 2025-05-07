@@ -21,3 +21,7 @@ theme: jekyll-theme-primer
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
+
+# Add to your existing _config.yml
+include:
+  - assets
