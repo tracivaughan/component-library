@@ -30,6 +30,29 @@ This component provides responsive, accessible HTML tables that work across devi
 - Optional formatting to control widths across multiple tables
 - Optional table footer for totals
 
+## Examples
+
+<table class="ptn-cleantable">
+  <caption class="for-sr">Employee Information</caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Position</th>
+      <th scope="col">Department</th>
+      <th scope="col">Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-label="Name">John Smith</td>
+      <td data-label="Position">Senior Designer</td>
+      <td data-label="Department">UX Design</td>
+      <td data-label="Location">New York</td>
+    </tr>
+    <!-- More rows here -->
+  </tbody>
+</table>
+
 ## Code Example
 
 ### HTML Structure
