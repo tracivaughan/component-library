@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Action Button Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: white;
+            padding: 0;
+            color: #374151;
+            margin: 0;
+        }
+
+        .ptn-for-sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            /* clip is deprecated but still works; including for old browsers */
+            clip-path: inset(50%);
+            white-space: nowrap;
+            border: 0;
+        }
+
+
+        /* Content area styles */
+        .content-wrapper {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .content-area {
+            padding: 0 2rem 2rem;
+        }
+
+
+
+        .ptn-table-container {
+            background: white;
+            border: 1px solid #cad1d2;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .ptn-basictable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ptn-basictable th,
+        .ptn-basictable td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .ptn-basictable th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            font-size: .875rem;
+            color: #374151;
+        }
+
+        .ptn-basictable td {
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .ptn-basictable .actions-cell {
+            text-align: right;
+        }
+
+
+        @media screen and (max-width: 760px) {
+
+            .ptn-basictable {
+                border: 0;
+            }
+
+            .ptn-basictable thead {
+                display: none;
+            }
+
+            .ptn-basictable tr {
+                display: block;
+                border-bottom: 1px solid #747a7b;
+                padding: .75rem 0;
+            }
+
+            .ptn-basictable td {
+                display: block;
+                text-align: right;
+                border-bottom: 1px solid #cad1d2;
+                padding: .75rem;
+            }
+
+            .ptn-basictable th {
+                font-weight: 700;
+            }
+
+            .ptn-basictable td::before {
+                content: attr(data-cell);
+                font-weight: 600;
+                color: #606060;
+                float: left;
+            }
+
+            .ptn-basictable td:last-child {
+                border-bottom: 0;
+            }
+
+
+        }
+
+        /* Common styles for both button and link */
+        .ptn-icon-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-left: 6px;
+            position: relative;
+
+            /* Default state */
+            --bg-color: transparent;
+            --icon-color: #6b7280;
+            background-color: var(--bg-color);
+        }
+
+        /* Link-specific overrides */
+        a.ptn-icon-btn {
+            color: inherit;
+
+        }
+
+        a.ptn-icon-btn:visited {
+            color: inherit;
+        }
+
+        .ptn-icon-btn svg {
+            width: 28px;
+            height: 28px;
+            transition: fill 0.15s ease;
+            fill: var(--icon-color);
+        }
+
+        /* General hover state */
+        .ptn-icon-btn:hover {
+            --bg-color: #f3f4f6;
+            --icon-color: #374151;
+        }
+
+        /* Focus state */
+        .ptn-icon-btn:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        /* Active state */
+        .ptn-icon-btn:active {
+            --bg-color: #e5e7eb;
+            --icon-color: #111827;
+            transform: translateY(1px);
+        }
+
+        /* Specific button types */
+        .ptn-icon-btn[data-action="details"]:hover {
+            --bg-color: #dbeafe;
+            --icon-color: #2563eb;
+        }
+
+        .ptn-icon-btn[data-action="approve"]:hover {
+            --bg-color: #dcfce7;
+            --icon-color: #16a34a;
+        }
+
+        .ptn-icon-btn[data-action="deny"]:hover {
+            --bg-color: #fee2e2;
+            --icon-color: #dc2626;
+        }
+
+        .ptn-icon-btn[data-action="edit"]:hover {
+            --bg-color: #fef3c7;
+            --icon-color: #d97706;
+        }
+
+        .ptn-icon-btn[data-action="delete"]:hover {
+            --bg-color: #fef2f2;
+            --icon-color: #ef4444;
+        }
+
+        .ptn-icon-btn[data-action="settings"]:hover {
+            --bg-color: #f3f4f6;
+            --icon-color: #6b7280;
+        }
+
+        .ptn-icon-btn[data-action="forward"]:hover {
+            --bg-color: #ddd6fe;
+            --icon-color: #7c3aed;
+        }
+
+        .ptn-icon-btn[data-action="return"]:hover {
+            --bg-color: #fed7d7;
+            --icon-color: #e53e3e;
+        }
+
+        .ptn-icon-btn[data-action="download"]:hover {
+            --bg-color: #e0e7ff;
+            --icon-color: #3730a3;
+        }
+
+        .ptn-icon-btn[data-action="view"]:hover {
+            --bg-color: #ecfdf5;
+            --icon-color: #047857;
+        }
+
+        .ptn-icon-btn[data-action="copy"]:hover {
+            --bg-color: #fef3c7;
+            --icon-color: #92400e;
+        }
+
+        .ptn-icon-btn[data-action="archive"]:hover {
+            --bg-color: #f3f4f6;
+            --icon-color: #374151;
+        }
+
+        /* Focus states with specific colors */
+        .ptn-icon-btn[data-action="details"]:focus {
+            --bg-color: #dbeafe;
+            --icon-color: #2563eb;
+        }
+
+        .ptn-icon-btn[data-action="approve"]:focus {
+            --bg-color: #dcfce7;
+            --icon-color: #16a34a;
+        }
+
+        .ptn-icon-btn[data-action="deny"]:focus {
+            --bg-color: #fee2e2;
+            --icon-color: #dc2626;
+        }
+
+        .ptn-icon-btn[data-action="edit"]:focus {
+            --bg-color: #fef3c7;
+            --icon-color: #d97706;
+        }
+
+        .ptn-icon-btn[data-action="delete"]:focus {
+            --bg-color: #fef2f2;
+            --icon-color: #ef4444;
+        }
+
+        .ptn-icon-btn[data-action="settings"]:focus {
+            --bg-color: #f3f4f6;
+            --icon-color: #6b7280;
+        }
+
+        .ptn-icon-btn[data-action="forward"]:focus {
+            --bg-color: #ddd6fe;
+            --icon-color: #7c3aed;
+        }
+
+        .ptn-icon-btn[data-action="return"]:focus {
+            --bg-color: #fed7d7;
+            --icon-color: #e53e3e;
+        }
+
+        .ptn-icon-btn[data-action="download"]:focus {
+            --bg-color: #e0e7ff;
+            --icon-color: #3730a3;
+        }
+
+        .ptn-icon-btn[data-action="view"]:focus {
+            --bg-color: #ecfdf5;
+            --icon-color: #047857;
+        }
+
+        .ptn-icon-btn[data-action="copy"]:focus {
+            --bg-color: #fef3c7;
+            --icon-color: #92400e;
+        }
+
+        .ptn-icon-btn[data-action="archive"]:focus {
+            --bg-color: #f3f4f6;
+            --icon-color: #374151;
+        }
+
+        /* Active states with specific colors */
+        .ptn-icon-btn[data-action="details"]:active {
+            --bg-color: #bfdbfe;
+            --icon-color: #1d4ed8;
+        }
+
+        .ptn-icon-btn[data-action="approve"]:active {
+            --bg-color: #bbf7d0;
+            --icon-color: #15803d;
+        }
+
+        .ptn-icon-btn[data-action="deny"]:active {
+            --bg-color: #fecaca;
+            --icon-color: #b91c1c;
+        }
+
+        .ptn-icon-btn[data-action="edit"]:active {
+            --bg-color: #fde68a;
+            --icon-color: #b45309;
+        }
+
+        .ptn-icon-btn[data-action="delete"]:active {
+            --bg-color: #fee2e2;
+            --icon-color: #dc2626;
+        }
+
+        .ptn-icon-btn[data-action="settings"]:active {
+            --bg-color: #e5e7eb;
+            --icon-color: #374151;
+        }
+
+        .ptn-icon-btn[data-action="forward"]:active {
+            --bg-color: #c4b5fd;
+            --icon-color: #6d28d9;
+        }
+
+        .ptn-icon-btn[data-action="return"]:active {
+            --bg-color: #fbb6ce;
+            --icon-color: #be185d;
+        }
+
+        .ptn-icon-btn[data-action="download"]:active {
+            --bg-color: #c7d2fe;
+            --icon-color: #312e81;
+        }
+
+        .ptn-icon-btn[data-action="view"]:active {
+            --bg-color: #d1fae5;
+            --icon-color: #065f46;
+        }
+
+        .ptn-icon-btn[data-action="copy"]:active {
+            --bg-color: #fde68a;
+            --icon-color: #78350f;
+        }
+
+        .ptn-icon-btn[data-action="archive"]:active {
+            --bg-color: #d1d5db;
+            --icon-color: #111827;
+        }
+
+        /* Demo styles */
+        .demo-section {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-section h3 {
+            margin-top: 0;
+            color: #111827;
+        }
+
+        /* Larger demo icons */
+        .demo-icon {
+            width: 48px !important;
+            height: 48px !important;
+            margin: 8px;
+        }
+
+        .demo-icon svg {
+            width: 36px !important;
+            height: 36px !important;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 16px;
+        }
+
+        .demo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            transition: box-shadow 0.15s;
+        }
+
+        .demo-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-item small {
+            margin-top: 8px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+
+        <div class="content-area">
+
+            <svg style="display: none">
+                <defs>
+                    <!-- Details/Three dots icon -->
+                    <symbol id="icon-details" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M6.91448421,10 C5.85757895,10 5,10.8576331 5,11.9146522 C5,12.9726397 5.85755789,13.8293043 6.91448421,13.8293043 C7.97141053,13.8293043 8.82896842,12.9716712 8.82896842,11.9146522 C8.82896842,10.8576331 7.97141053,10 6.91448421,10 L6.91448421,10 Z">
+                            </path>
+                            <path
+                                d="M11.6578526,10 C10.5999579,10 9.74336842,10.8576331 9.74336842,11.9146522 C9.74336842,12.9726397 10.6009263,13.8293043 11.6578526,13.8293043 C12.7157474,13.8293043 13.5723368,12.9716712 13.5723368,11.9146522 C13.5723368,10.8576331 12.7147789,10 11.6578526,10 L11.6578526,10 Z">
+                            </path>
+                            <path
+                                d="M16.4012211,10 C15.3443158,10 14.4867368,10.8576331 14.4867368,11.9146522 C14.4867368,12.9726397 15.3442947,13.8293043 16.4012211,13.8293043 C17.4581474,13.8293043 18.3157053,12.9716712 18.3157053,11.9146522 C18.3157053,10.8576331 17.4581474,10 16.4012211,10 L16.4012211,10 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Approve/Check icon -->
+                    <symbol id="icon-approve" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M9.5938501,16.673927 C9.30178091,16.673927 9.0018706,16.5586163 8.7789622,16.3357079 C8.32543242,15.8821781 8.32543242,15.151877 8.7789622,14.7059321 L15.8206022,7.66429212 C16.274132,7.21076233 17.0044331,7.21076233 17.450378,7.66429212 C17.9039078,8.11782191 17.9039078,8.848123 17.450378,9.29406791 L10.408738,16.3357079 C10.1857245,16.5586214 9.88594491,16.673927 9.5938501,16.673927 Z">
+                            </path>
+                            <path
+                                d="M9.44778988,16.5278668 C9.15572069,16.5278668 8.85581038,16.4125561 8.63290199,16.1896477 L5.78088405,13.3376297 C5.32735426,12.8840999 5.32735426,12.1537988 5.78088405,11.7078539 C6.22670083,11.2543242 6.96471493,11.2543242 7.41065983,11.7078539 L10.2626778,14.5598719 C10.7162076,15.0134017 10.7162076,15.7437028 10.2626778,16.1896477 C10.0397643,16.4125612 9.73998719,16.5278668 9.44778988,16.5278668 L9.44778988,16.5278668 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Deny/X icon -->
+                    <symbol id="icon-deny" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M15.52082,16.673927 C15.2287508,16.673927 14.9288405,16.5586163 14.7059321,16.3357079 L7.66429212,9.29406791 C7.21076233,8.84053812 7.21076233,8.11023703 7.66429212,7.66429212 C8.11782191,7.21076233 8.848123,7.21076233 9.29406791,7.66429212 L16.3357079,14.7059321 C16.7892377,15.1594619 16.7892377,15.889763 16.3357079,16.3357079 C16.1127944,16.5586214 15.8130173,16.673927 15.52082,16.673927 L15.52082,16.673927 Z">
+                            </path>
+                            <path
+                                d="M8.47918001,16.673927 C8.18711083,16.673927 7.88720051,16.5586163 7.66429212,16.3357079 C7.21076233,15.8821781 7.21076233,15.151877 7.66429212,14.7059321 L14.7059321,7.66429212 C15.1594619,7.21076233 15.889763,7.21076233 16.3357079,7.66429212 C16.7892377,8.11782191 16.7892377,8.848123 16.3357079,9.29406791 L9.29406791,16.3357079 C9.07105445,16.5586214 8.77127482,16.673927 8.47918001,16.673927 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Improved Edit icon - Cleaner pencil design -->
+                    <symbol id="icon-edit" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M16.3,6.7 C16.7,6.3 17.3,6.3 17.7,6.7 L18.3,7.3 C18.7,7.7 18.7,8.3 18.3,8.7 L17.5,9.5 L15.5,7.5 L16.3,6.7 Z M14.8,8.2 L16.8,10.2 L10.5,16.5 L8.5,16.5 L8.5,14.5 L14.8,8.2 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Improved Delete/Trash icon - Simpler, clearer design -->
+                    <symbol id="icon-delete" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M8.5,7.5 L15.5,7.5 C15.8,7.5 16,7.7 16,8 C16,8.3 15.8,8.5 15.5,8.5 L15,8.5 L15,16.5 C15,17.1 14.6,17.5 14,17.5 L10,17.5 C9.4,17.5 9,17.1 9,16.5 L9,8.5 L8.5,8.5 C8.2,8.5 8,8.3 8,8 C8,7.7 8.2,7.5 8.5,7.5 Z M10.5,6 L13.5,6 C13.8,6 14,6.2 14,6.5 C14,6.8 13.8,7 13.5,7 L10.5,7 C10.2,7 10,6.8 10,6.5 C10,6.2 10.2,6 10.5,6 Z M10.5,10 L10.5,15 C10.5,15.3 10.7,15.5 11,15.5 C11.3,15.5 11.5,15.3 11.5,15 L11.5,10 C11.5,9.7 11.3,9.5 11,9.5 C10.7,9.5 10.5,9.7 10.5,10 Z M12.5,10 L12.5,15 C12.5,15.3 12.7,15.5 13,15.5 C13.3,15.5 13.5,15.3 13.5,15 L13.5,10 C13.5,9.7 13.3,9.5 13,9.5 C12.7,9.5 12.5,9.7 12.5,10 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Improved Settings/Gear icon - Much cleaner and more visible -->
+                    <symbol id="icon-settings" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M13,6.05 L13,7.5 C14.2,7.8 15.2,8.6 15.8,9.7 L17.1,9 L17.9,10.4 L16.6,11.1 C16.7,11.4 16.8,11.7 16.8,12 C16.8,12.3 16.7,12.6 16.6,12.9 L17.9,13.6 L17.1,15 L15.8,14.3 C15.2,15.4 14.2,16.2 13,16.5 L13,17.95 L11,17.95 L11,16.5 C9.8,16.2 8.8,15.4 8.2,14.3 L6.9,15 L6.1,13.6 L7.4,12.9 C7.3,12.6 7.2,12.3 7.2,12 C7.2,11.7 7.3,11.4 7.4,11.1 L6.1,10.4 L6.9,9 L8.2,9.7 C8.8,8.6 9.8,7.8 11,7.5 L11,6.05 L13,6.05 Z M12,9.5 C10.6,9.5 9.5,10.6 9.5,12 C9.5,13.4 10.6,14.5 12,14.5 C13.4,14.5 14.5,13.4 14.5,12 C14.5,10.6 13.4,9.5 12,9.5 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Forward/Send icon - Arrow pointing right -->
+                    <symbol id="icon-forward" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M8,11 L14.6,11 L12.3,8.7 C12,8.4 12,7.9 12.3,7.6 C12.6,7.3 13.1,7.3 13.4,7.6 L17.4,11.6 C17.7,11.9 17.7,12.4 17.4,12.7 L13.4,16.7 C13.1,17 12.6,17 12.3,16.7 C12,16.4 12,15.9 12.3,15.6 L14.6,13.3 L8,13.3 C7.6,13.3 7.3,13 7.3,12.6 C7.3,12.2 7.6,11.9 8,11.9 L8,11 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Return/Send Back icon - Arrow pointing left -->
+                    <symbol id="icon-return" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M16,11 L9.4,11 L11.7,8.7 C12,8.4 12,7.9 11.7,7.6 C11.4,7.3 10.9,7.3 10.6,7.6 L6.6,11.6 C6.3,11.9 6.3,12.4 6.6,12.7 L10.6,16.7 C10.9,17 11.4,17 11.7,16.7 C12,16.4 12,15.9 11.7,15.6 L9.4,13.3 L16,13.3 C16.4,13.3 16.7,13 16.7,12.6 C16.7,12.2 16.4,11.9 16,11.9 L16,11 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Download icon - Down arrow with line -->
+                    <symbol id="icon-download" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M12,6 C12.4,6 12.7,6.3 12.7,6.7 L12.7,12.6 L14.9,10.4 C15.2,10.1 15.7,10.1 16,10.4 C16.3,10.7 16.3,11.2 16,11.5 L12.4,15.1 C12.1,15.4 11.6,15.4 11.3,15.1 L7.7,11.5 C7.4,11.2 7.4,10.7 7.7,10.4 C8,10.1 8.5,10.1 8.8,10.4 L11,12.6 L11,6.7 C11,6.3 11.3,6 11.7,6 L12,6 Z M7,17 L17,17 C17.4,17 17.7,17.3 17.7,17.7 C17.7,18.1 17.4,18.4 17,18.4 L7,18.4 C6.6,18.4 6.3,18.1 6.3,17.7 C6.3,17.3 6.6,17 7,17 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- View/Eye icon - Simple eye shape -->
+                    <symbol id="icon-view" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M12,8 C15.3,8 18.2,10.1 19.5,12 C18.2,13.9 15.3,16 12,16 C8.7,16 5.8,13.9 4.5,12 C5.8,10.1 8.7,8 12,8 Z M12,10 C10.9,10 10,10.9 10,12 C10,13.1 10.9,14 12,14 C13.1,14 14,13.1 14,12 C14,10.9 13.1,10 12,10 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Copy/Duplicate icon - Two overlapping squares -->
+                    <symbol id="icon-copy" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M8,6 L14,6 C14.6,6 15,6.4 15,7 L15,9 L16,9 C16.6,9 17,9.4 17,10 L17,16 C17,16.6 16.6,17 16,17 L10,17 C9.4,17 9,16.6 9,16 L9,15 L8,15 C7.4,15 7,14.6 7,14 L7,7 C7,6.4 7.4,6 8,6 Z M10,10 L10,15 L15,15 L15,10 L10,10 Z M8,7 L8,13 L9,13 L9,10 C9,9.4 9.4,9 10,9 L13,9 L13,7 L8,7 Z">
+                            </path>
+                        </g>
+                    </symbol>
+
+                    <!-- Archive icon - Box with arrow going down -->
+                    <symbol id="icon-archive" viewBox="0 0 24 24">
+                        <g fill-rule="evenodd">
+                            <path
+                                d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z">
+                            </path>
+                            <path
+                                d="M7,7 L17,7 C17.4,7 17.7,7.3 17.7,7.7 L17.7,9.3 C17.7,9.7 17.4,10 17,10 L16,10 L16,16 C16,16.6 15.6,17 15,17 L9,17 C8.4,17 8,16.6 8,16 L8,10 L7,10 C6.6,10 6.3,9.7 6.3,9.3 L6.3,7.7 C6.3,7.3 6.6,7 7,7 Z M9,10 L9,15 L15,15 L15,10 L9,10 Z M10,11 L14,11 C14.3,11 14.5,11.2 14.5,11.5 C14.5,11.8 14.3,12 14,12 L12.8,12 L13.4,12.6 C13.6,12.8 13.6,13.2 13.4,13.4 C13.2,13.6 12.8,13.6 12.6,13.4 L11.6,12.4 C11.4,12.2 11.4,11.8 11.6,11.6 L12.6,10.6 C12.8,10.4 13.2,10.4 13.4,10.6 C13.6,10.8 13.6,11.2 13.4,11.4 L12.8,11 L14,11 L10,11 Z">
+                            </path>
+                        </g>
+                    </symbol>
+                </defs>
+            </svg>
+
+            <div class="ptn-table-container">
+                <table class="ptn-basictable">
+                    <caption class="ptn-for-sr">List of staff status and dates</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="actions-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-cell="Name: "">Doe, Johnna</td>
+                            <td data-cell=" Status: ">Pending</td>
+                            <td data-cell=" Date: ">2024-05-12</td>
+                            <td data-cell="" class=" actions-cell">
+                                <a href="/details/1" class="ptn-icon-btn" data-action="details" title="View Details">
+                                    <svg>
+                                        <use href="#icon-details"></use>
+                                    </svg>
+                                </a>
+                                <button class="ptn-icon-btn" data-action="approve" title="Approve">
+                                    <svg>
+                                        <use href="#icon-approve"></use>
+                                    </svg>
+                                </button>
+                                <button class="ptn-icon-btn" data-action="deny" title="Deny">
+                                    <svg>
+                                        <use href="#icon-deny"></use>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-cell="Name: ">Smith, Lew</td>
+                            <td data-cell="Status: ">Approved</td>
+                            <td data-cell="Date: ">2024-05-11</td>
+                            <td data-cell="" class="actions-cell">
+                                <a href="/details/2" class="ptn-icon-btn" data-action="details" title="View Details">
+                                    <svg>
+                                        <use href="#icon-details" />
+                                    </svg>
+                                </a>
+                                <button class="ptn-icon-btn" data-action="approve" title="Approve">
+                                    <svg>
+                                        <use href="#icon-approve" />
+                                    </svg>
+                                </button>
+                                <button class="ptn-icon-btn" data-action="deny" title="Deny">
+                                    <svg>
+                                        <use href="#icon-deny" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-cell="Name: ">Thompson, Bob </td>
+                            <td data-cell="Status: ">Denied</td>
+                            <td data-cell="Date: ">2024-05-10</td>
+                            <td data-cell="" class="actions-cell">
+                                <a href="/details/3" class="ptn-icon-btn" data-action="details" title="View Details">
+                                    <svg>
+                                        <use href="#icon-details" />
+                                    </svg>
+                                </a>
+                                <button class="ptn-icon-btn" data-action="approve" title="Approve">
+                                    <svg>
+                                        <use href="#icon-approve" />
+                                    </svg>
+                                </button>
+                                <button class="ptn-icon-btn" data-action="deny" title="Deny">
+                                    <svg>
+                                        <use href="#icon-deny" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+            <div class="demo-section">
+                <h3>Complete Icon Library</h3>
+                <p>All available action icons with hover states and color coding. Hover over each icon to see its unique
+                    color theme:</p>
+                <div class="demo-grid">
+                    <!-- Core Actions -->
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="details" title="View Details">
+                            <svg>
+                                <use href="#icon-details"></use>
+                            </svg>
+                        </div>
+                        <small>Details<br>Core action</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="approve" title="Approve">
+                            <svg>
+                                <use href="#icon-approve"></use>
+                            </svg>
+                        </div>
+                        <small>Approve<br>Core action</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="deny" title="Deny">
+                            <svg>
+                                <use href="#icon-deny"></use>
+                            </svg>
+                        </div>
+                        <small>Deny<br>Core action</small>
+                    </div>
+
+                    <!-- Management Actions -->
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="edit" title="Edit">
+                            <svg>
+                                <use href="#icon-edit"></use>
+                            </svg>
+                        </div>
+                        <small>Edit<br>Management</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="delete" title="Delete">
+                            <svg>
+                                <use href="#icon-delete"></use>
+                            </svg>
+                        </div>
+                        <small>Delete<br>Management</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="settings" title="Settings">
+                            <svg>
+                                <use href="#icon-settings"></use>
+                            </svg>
+                        </div>
+                        <small>Settings<br>Management</small>
+                    </div>
+
+                    <!-- Workflow Actions -->
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="forward" title="Forward">
+                            <svg>
+                                <use href="#icon-forward"></use>
+                            </svg>
+                        </div>
+                        <small>Forward<br>Workflow</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="return" title="Return">
+                            <svg>
+                                <use href="#icon-return"></use>
+                            </svg>
+                        </div>
+                        <small>Return<br>Workflow</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="archive" title="Archive">
+                            <svg>
+                                <use href="#icon-archive"></use>
+                            </svg>
+                        </div>
+                        <small>Archive<br>Workflow</small>
+                    </div>
+
+                    <!-- Data Actions -->
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="download" title="Download">
+                            <svg>
+                                <use href="#icon-download"></use>
+                            </svg>
+                        </div>
+                        <small>Download<br>Data action</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="view" title="View">
+                            <svg>
+                                <use href="#icon-view"></use>
+                            </svg>
+                        </div>
+                        <small>View<br>Data action</small>
+                    </div>
+                    <div class="demo-item">
+                        <div class="ptn-icon-btn demo-icon" data-action="copy" title="Copy">
+                            <svg>
+                                <use href="#icon-copy"></use>
+                            </svg>
+                        </div>
+                        <small>Copy<br>Data action</small>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End of content-area -->
+    </div> <!-- End of content-wrapper -->
+
+    <script>
+        // Add click handlers for demonstration
+        document.querySelectorAll('button.ptn-icon-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const action = this.dataset.action;
+                console.log(`${action} button clicked`);
+
+                // Show a temporary visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add click handlers for links (just for demo logging)
+        document.querySelectorAll('a.ptn-icon-btn').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent navigation for demo
+                const action = this.dataset.action;
+                console.log(`${action} link clicked - would navigate to: ${this.href}`);
+
+                // Show a temporary visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add hover effects for demo icons
+        document.querySelectorAll('.demo-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', function () {
+                this.style.transform = 'scale(1.1)';
+            });
+            icon.addEventListener('mouseleave', function () {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+
+</html>
