@@ -31,13 +31,11 @@ This component provides responsive, accessible HTML tables that work across devi
 - Optional table footer for totals
 
 ## Examples
-
-  <!-- Live demo -->
-    <iframe src="basic-table-examples.html" 
+<iframe src="basic-table-examples.html" 
             width="100%" 
             height="300" 
             frameborder="0">
-    </iframe>
+</iframe>
 
 <table class="ptn-cleantable">
   <caption class="ptn-for-sr">Faculty Information</caption>
