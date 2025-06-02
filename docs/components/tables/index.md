@@ -32,6 +32,13 @@ This component provides responsive, accessible HTML tables that work across devi
 
 ## Examples
 
+  <!-- Live demo -->
+    <iframe src="demos/basic-table-examples.html" 
+            width="100%" 
+            height="200" 
+            frameborder="0">
+    </iframe>
+
 <table class="ptn-cleantable">
   <caption class="ptn-for-sr">Faculty Information</caption>
   <thead>
