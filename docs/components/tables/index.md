@@ -33,7 +33,7 @@ This component provides responsive, accessible HTML tables that work across devi
 ## Examples
 
 <table class="ptn-cleantable">
-  <caption class="for-sr">Employee Information</caption>
+  <caption class="ptn-for-sr">Faculty Information</caption>
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -45,9 +45,9 @@ This component provides responsive, accessible HTML tables that work across devi
   <tbody>
     <tr>
       <td data-label="Name">John Smith</td>
-      <td data-label="Position">Senior Designer</td>
-      <td data-label="Department">UX Design</td>
-      <td data-label="Location">New York</td>
+      <td data-label="Position">Assistant Professor</td>
+      <td data-label="Department">Chemistry</td>
+      <td data-label="Location">Urbana</td>
     </tr>
     <!-- More rows here -->
   </tbody>
@@ -59,7 +59,7 @@ This component provides responsive, accessible HTML tables that work across devi
 
 ```html
 <table class="ptn-cleantable">
-  <caption class="for-sr">Employee Information</caption>
+  <caption class="ptn-for-sr">Faculty Information</caption>
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -71,9 +71,9 @@ This component provides responsive, accessible HTML tables that work across devi
   <tbody>
     <tr>
       <td data-label="Name">John Smith</td>
-      <td data-label="Position">Senior Designer</td>
-      <td data-label="Department">UX Design</td>
-      <td data-label="Location">New York</td>
+      <td data-label="Position">Assistant Professor</td>
+      <td data-label="Department">Chemistry</td>
+      <td data-label="Location">Urbana</td>
     </tr>
     <!-- More rows here -->
   </tbody>
