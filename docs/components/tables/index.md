@@ -33,9 +33,9 @@ This component provides responsive, accessible HTML tables that work across devi
 ## Examples
 
   <!-- Live demo -->
-    <iframe src="demos/basic-table-examples.html" 
+    <iframe src="basic-table-examples.html" 
             width="100%" 
-            height="200" 
+            height="300" 
             frameborder="0">
     </iframe>
 
