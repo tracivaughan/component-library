@@ -1,0 +1,389 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with sticky header | AITS, University of Illinois System
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+        :root {
+
+            /* Light neutrals */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+
+            /* Mid neutrals */
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+
+            /* Dark neutrals */
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            --gray-950: #0a0a0a;
+
+            /* Semantic aliases */
+            --background: var(--white);
+            --surface: var(--gray-50);
+            --border: var(--gray-200);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-muted: var(--gray-400);
+
+            --rowcolor: #F1F5F7;
+            --rowhover: #F9FAFB;
+        }
+
+
+        /* body & container: for example formatting only */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .ptn-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.25rem;
+        }
+
+        /* start of table styles */
+
+        /* hides from display, but available for AT */
+        .ptn-for-sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            /* clip is deprecated but still works; including for old browsers */
+            clip-path: inset(50%);
+            white-space: nowrap;
+            border: 0;
+        }
+
+
+        .ptn-app-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        .ptn-app-table th,
+        .ptn-app-table td {
+            padding: .5rem .6rem;
+        }
+
+        .ptn-app-table thead tr {
+            border-bottom: 1px solid var(--gray-400);
+        }
+
+        .ptn-app-table th {
+            text-align: left;
+            text-transform: uppercase;
+            font-weight: 400;
+            font-size: .85rem;
+            color: var(--gray-700);
+        }
+
+
+        .ptn-app-table td.ptn-actions,
+        .ptn-app-table th.ptn-actions-col {
+            text-align: right;
+        }
+
+
+        .ptn-app-table tr:nth-child(even) {
+            background-color: var(--rowcolor);
+        }
+
+        .ptn-app-table tr:hover {
+            background-color: var(--rowhover);
+        }
+
+
+        .ptn-app-table th.ptn-status-col {
+            padding-left: 1.5rem;
+            /*moving header over to align with status bubbles*/
+        }
+
+        .ptn-status {
+            display: inline-block;
+            font-weight: 600;
+            padding: 0.25rem 1rem;
+            border-radius: 16px;
+            background-color: var(--gray-300);
+            font-size: .9rem;
+        }
+
+
+        .ptn-app-table thead {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 10;
+        }
+
+        .ptn-app-table th {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+        @media (max-width: 960px) {
+            .ptn-app-table th {
+                display: none;
+            }
+
+            .ptn-app-table th.rowhead {
+                display: block;
+            }
+
+            .ptn-app-table td {
+                display: block;
+                padding: .65rem 1rem;
+            }
+
+            .ptn-app-table thead {
+                border-bottom: none;
+            }
+
+            .ptn-app-table td:before,
+            .ptn-app-table th.rowhead:before {
+                content: attr(data-cell) " ";
+                font-weight: 700;
+
+            }
+
+            .ptn-app-table td:first-child {
+                padding-top: 1rem;
+            }
+
+            .ptn-app-table td:last-child {
+                padding-bottom: 1rem;
+
+            }
+
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <header>
+
+
+    </header>
+
+    <main id="main" class="cardservices">
+        <div class="ptn-container">
+
+            <h1>Sticky header</h1>
+
+            <table class="ptn-app-table">
+                <caption class="ptn-for-sr">List of teams members and status</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Person</th>
+                        <th scope="col" class="ptn-status-col">Status</th>
+                        <th scope="col">Chart-Org</th>
+                        <th scope="col">Dept Head</th>
+                        <th scope="col">Start Date</th>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-cell="Person: ">Adams, Sarah</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-fresh">New</span></td>
+                        <td data-cell="Chart-Org: ">1-2233400</td>
+                        <td data-cell="Dept Head: ">Michael Thompson</td>
+                        <td data-cell="Last update: ">12/15/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Baker, Michael</td>
+                        <td data-cell="Status: "><span class="ptn-status revised">Revised</span></td>
+                        <td data-cell="Chart-Org: ">1-7788900</td>
+                        <td data-cell="Dept Head: ">Linda Rodriguez</td>
+                        <td data-cell="Last update: ">11/22/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Campbell, Lisa</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-approved">Approved</span></td>
+                        <td data-cell="Chart-Org: ">1-3344500</td>
+                        <td data-cell="Dept Head: ">Robert Chen</td>
+                        <td data-cell="Last update: ">12/01/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Davis, Robert</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-pending">Pending</span></td>
+                        <td data-cell="Chart-Org: ">1-6677800</td>
+                        <td data-cell="Dept Head: ">Susan Martinez</td>
+                        <td data-cell="Last update: ">11/30/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Dekker, Hans</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-fresh">New</span></td>
+                        <td data-cell="Chart-Org: ">1-5555600</td>
+                        <td data-cell="Dept Head: ">Alva Beaumont</td>
+                        <td data-cell="Last update: ">11/12/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Evans, Jennifer</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-flagged">Flagged</span></td>
+                        <td data-cell="Chart-Org: ">1-1122300</td>
+                        <td data-cell="Dept Head: ">David Kim</td>
+                        <td data-cell="Last update: ">12/10/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Foster, David</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-fresh">New</span></td>
+                        <td data-cell="Chart-Org: ">1-9900100</td>
+                        <td data-cell="Dept Head: ">Jennifer Walsh</td>
+                        <td data-cell="Last update: ">12/05/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Garcia, Maria</td>
+                        <td data-cell="Status: "><span class="ptn-status revised">Revised</span></td>
+                        <td data-cell="Chart-Org: ">1-4455600</td>
+                        <td data-cell="Dept Head: ">Mark Johnson</td>
+                        <td data-cell="Last update: ">11/28/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Harris, James</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-approved">Approved</span></td>
+                        <td data-cell="Chart-Org: ">1-8811200</td>
+                        <td data-cell="Dept Head: ">Patricia Lee</td>
+                        <td data-cell="Last update: ">12/12/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Johnson, Patricia</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-pending">Pending</span></td>
+                        <td data-cell="Chart-Org: ">1-2255700</td>
+                        <td data-cell="Dept Head: ">Anthony Davis</td>
+                        <td data-cell="Last update: ">11/25/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">King, Melanie</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-flagged">Flagged</span></td>
+                        <td data-cell="Chart-Org: ">1-444000</td>
+                        <td data-cell="Dept Head: ">George Russell</td>
+                        <td data-cell="Last update: ">10/12/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Lewis, Christopher</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-fresh">New</span></td>
+                        <td data-cell="Chart-Org: ">1-5566800</td>
+                        <td data-cell="Dept Head: ">Michelle Brown</td>
+                        <td data-cell="Last update: ">12/08/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Miller, Amanda</td>
+                        <td data-cell="Status: "><span class="ptn-status revised">Revised</span></td>
+                        <td data-cell="Chart-Org: ">1-7799900</td>
+                        <td data-cell="Dept Head: ">Christopher Wilson</td>
+                        <td data-cell="Last update: ">11/18/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Nelson, Kevin</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-approved">Approved</span></td>
+                        <td data-cell="Chart-Org: ">1-3366400</td>
+                        <td data-cell="Dept Head: ">Rachel Garcia</td>
+                        <td data-cell="Last update: ">12/03/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">O'Connor, Rachel</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-pending">Pending</span></td>
+                        <td data-cell="Chart-Org: ">1-6688700</td>
+                        <td data-cell="Dept Head: ">Brian Anderson</td>
+                        <td data-cell="Last update: ">11/20/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Paulson, Nick</td>
+                        <td data-cell="Status: "><span class="ptn-status revised">Revised</span></td>
+                        <td data-cell="Chart-Org: ">1-5555600</td>
+                        <td data-cell="Dept Head: ">Connie Vander</td>
+                        <td data-cell="Last update: ">11/12/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Peterson, Mark</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-fresh">New</span></td>
+                        <td data-cell="Chart-Org: ">1-1144500</td>
+                        <td data-cell="Dept Head: ">Karen Miller</td>
+                        <td data-cell="Last update: ">12/07/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Quinn, Elizabeth</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-flagged">Flagged</span></td>
+                        <td data-cell="Chart-Org: ">1-9933200</td>
+                        <td data-cell="Dept Head: ">James Taylor</td>
+                        <td data-cell="Last update: ">11/15/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Roberts, Thomas</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-approved">Approved</span></td>
+                        <td data-cell="Chart-Org: ">1-4477800</td>
+                        <td data-cell="Dept Head: ">Lisa White</td>
+                        <td data-cell="Last update: ">12/14/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Smith, Jessica</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-pending">Pending</span></td>
+                        <td data-cell="Chart-Org: ">1-8822300</td>
+                        <td data-cell="Dept Head: ">Daniel Martinez</td>
+                        <td data-cell="Last update: ">11/27/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Taylor, Brian</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-fresh">New</span></td>
+                        <td data-cell="Chart-Org: ">1-2277600</td>
+                        <td data-cell="Dept Head: ">Amanda Foster</td>
+                        <td data-cell="Last update: ">12/11/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Wilson, Ashley</td>
+                        <td data-cell="Status: "><span class="ptn-status revised">Revised</span></td>
+                        <td data-cell="Chart-Org: ">1-5588900</td>
+                        <td data-cell="Dept Head: ">Kevin Roberts</td>
+                        <td data-cell="Last update: ">12/02/2026</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Person: ">Young, Daniel</td>
+                        <td data-cell="Status: "><span class="ptn-status ptn-approved">Approved</span></td>
+                        <td data-cell="Chart-Org: ">1-7711100</td>
+                        <td data-cell="Dept Head: ">Elizabeth Quinn</td>
+                        <td data-cell="Last update: ">12/09/2026</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </main>
+    <footer>
+
+
+    </footer>
+
+
+
+</body>
+
+</html>
