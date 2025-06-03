@@ -1,0 +1,285 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with sticky header | AITS, University of Illinois System
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+        :root {
+
+            /* Light neutrals */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+
+            /* Mid neutrals */
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+
+            /* Dark neutrals */
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            --gray-950: #0a0a0a;
+
+            /* Semantic aliases */
+            --background: var(--white);
+            --surface: var(--gray-50);
+            --border: var(--gray-200);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-muted: var(--gray-400);
+
+            --rowcolor: #F1F5F7;
+            --rowhover: #F9FAFB;
+        }
+
+
+        /* body & container: for example formatting only */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .ptn-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.25rem;
+        }
+
+        /* start of table styles */
+
+        /* hides from display, but available for AT */
+        .ptn-for-sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            /* clip is deprecated but still works; including for old browsers */
+            clip-path: inset(50%);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .ptn-table-border {
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+        }
+
+        /* actual table codes */
+        .ptn-cleantable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-botton: 1.25rem;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .ptn-cleantable thead {
+            /* if you want a bgcolor on the header
+            background-color: #f4f4f4;*/
+            font-size: .8rem;
+        }
+
+        .ptn-cleantable thead tr {
+            border-bottom: 1px solid gray;
+        }
+
+        .ptn-cleantable thead th {
+            font-weight: 400;
+            text-transform: uppercase;
+            color: #666C76;
+        }
+
+        .ptn-cleantable th,
+        .ptn-cleantable td {
+            vertical-align: top;
+            padding: .7rem .75rem;
+            /* turn on if you want cells to have borders 
+            border: 1px solid #ddd;*/
+        }
+
+        .ptn-cleantable tr {
+            border-bottom: 1px solid #cad1d2;
+        }
+
+        .ptn-cleantable tr:nth-child(even) {
+            background-color: #F4F7F7;
+        }
+
+        .ptn-cleantable a:link {
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+
+        .ptn-fintable td {
+            text-align: right;
+        }
+
+        .ptn-fintable th {
+            text-align: right;
+            font-weight: 400;
+        }
+
+        .ptn-fintable .ptn-non-num {
+            text-align: left;
+        }
+
+        .ptn-cleantable tfoot {
+            background-color: #ebeded;
+            border-top: 2px solid rgb(151, 151, 151);
+            font-weight: 700;
+        }
+
+        .ptn-cleantable tfoot th {
+            font-weight: 700;
+        }
+
+        .ptn-neg-amount {
+            color: #7e0303;
+            font-weight: 500;
+        }
+
+        @media screen and (max-width: 760px) {
+
+            .ptn-cleantable {
+                border: 0;
+            }
+
+            .ptn-cleantable thead {
+                display: none;
+            }
+
+            .ptn-cleantable tr {
+                display: block;
+                border-bottom: 1px solid #747a7b;
+
+                padding: .75rem 0;
+            }
+
+            .ptn-cleantable td {
+                display: block;
+                text-align: right;
+                border-bottom: 1px solid #cad1d2;
+                padding: .75rem;
+            }
+
+            .ptn-cleantable th {
+                font-weight: 700;
+            }
+
+            .ptn-cleantable td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #606060;
+                float: left;
+            }
+
+            .ptn-cleantable td:last-child {
+                border-bottom: 0;
+            }
+
+
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <header>
+
+
+    </header>
+
+    <main id="main" class="cardservices">
+        <div class="ptn-container">
+
+            <h1>Financial data example</h1>
+            <div class="ptn-table-border">
+                <table class="ptn-cleantable ptn-fintable">
+                    <caption class="ptn-for-sr">Salaries and wage information for Project #123456</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="ptn-non-num">Description</th>
+                            <th scope="col">Budget</th>
+                            <th scope="col">Expenditures</th>
+                            <th scope="col">Encumbrances</th>
+                            <th scope="col">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th data-label="Description: " class="ptn-non-num" scope="row">Faculty and other
+                                professionals
+                            </th>
+                            <td data-label="Budget: ">85,000.00</td>
+                            <td data-label="Expenditures: ">45,250.75</td>
+                            <td data-label="Encumbrances: ">12,500.00</td>
+                            <td data-label="Balance: ">27,249.25</td>
+                        </tr>
+                        <tr>
+                            <th data-label="Description: " class="ptn-non-num" scope="row">Graduate assistants</th>
+                            <td data-label="Budget: ">120,000.00</td>
+                            <td data-label="Expenditures: ">62,350.50</td>
+                            <td data-label="Encumbrances: ">22,450.75</td>
+                            <td data-label="Balance: ">35,198.75</td>
+                        </tr>
+                        <tr>
+                            <th data-label="Description: " class="ptn-non-num" scope="row">Wages</th>
+                            <td data-label="Budget: ">45,000.00</td>
+                            <td data-label="Expenditures: ">28,125.60</td>
+                            <td data-label="Encumbrances: ">18,500.25</td>
+                            <td data-label="Balance: "><span class="ptn-neg-amount">-1,625.85</span></td>
+                        </tr>
+                        <tr>
+                            <th data-label="Description: " class="ptn-non-num" scope="row">Other personnel</th>
+                            <td data-label="Budget: ">60,000.00</td>
+                            <td data-label="Expenditures: ">35,275.80</td>
+                            <td data-label="Encumbrances: ">12,650.15</td>
+                            <td data-label="Balance: ">12,074.05</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="ptn-non-num" scope="row">Total Salaries and Wages</th>
+                            <td data-label="Budget: ">$310,000.00</td>
+                            <td data-label="Expenditures: ">$171,002.65</td>
+                            <td data-label="Encumbrances: ">$66,101.15</td>
+                            <td data-label="Balance: ">$72,896.20</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </main>
+    <footer>
+
+
+    </footer>
+
+
+
+</body>
+
+</html>
