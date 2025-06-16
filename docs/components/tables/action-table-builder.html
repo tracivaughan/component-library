@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Table Builder</title>
+    <style>
+        /* Root variables */
+        :root {
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            --gray-950: #0a0a0a;
+            --background: var(--white);
+            --surface: var(--gray-50);
+            --border: var(--gray-200);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --text-muted: var(--gray-400);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: white;
+            padding: 0;
+            color: #374151;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* Container styles */
+        .ptn-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem;
+        }
+
+        /* Builder interface */
+        .builder-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-section {
+            background: var(--surface);
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .preview-section {
+            background: var(--white);
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-group h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .option-group label {
+            display: block;
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        /* Action icons grid */
+        .action-icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .action-icon-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .action-icon-option:hover {
+            background: var(--surface);
+        }
+
+        .action-icon-option input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .action-icon-preview {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-icon-preview svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--gray-600);
+        }
+
+        /* Form controls */
+        #dataInput {
+            width: 100%;
+            min-height: 200px;
+            padding: 0.75rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin: 1rem 0;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin: 0.25rem 0;
+        }
+
+        button {
+            background: #0051a8;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #003d7f;
+        }
+
+        /* Table styles */
+        .ptn-table-container {
+            background: white;
+            border: 1px solid #cad1d2;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        /* Clean table styles */
+        .ptn-cleantable {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .ptn-cleantable thead {
+            font-size: .8rem;
+        }
+
+        .ptn-cleantable thead tr {
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .ptn-cleantable thead th {
+            font-weight: 400;
+            text-transform: uppercase;
+            color: #666C76;
+            padding: .7rem .75rem;
+        }
+
+        .ptn-cleantable th,
+        .ptn-cleantable td {
+            padding: .7rem .75rem;
+            vertical-align: top;
+        }
+
+        .ptn-cleantable tbody tr {
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .ptn-cleantable tr:nth-child(even) {
+            background-color: var(--gray-50);
+        }
+
+        /* Basic table styles */
+        .ptn-basictable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ptn-basictable th,
+        .ptn-basictable td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .ptn-basictable th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            font-size: .875rem;
+            color: #374151;
+        }
+
+        .ptn-basictable td {
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        /* Financial table styles */
+        .ptn-fintable td {
+            text-align: right;
+        }
+
+        .ptn-fintable th {
+            text-align: right;
+            font-weight: 400;
+        }
+
+        .ptn-fintable td:first-child,
+        .ptn-fintable th:first-child {
+            text-align: left;
+        }
+
+        /* Action buttons column */
+        .actions-cell {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: auto;
+            justify-content: end;
+            gap: 0.25rem;
+            padding: 0.75rem;
+        }
+
+        /* Icon button styles */
+        .ptn-icon-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-left: 6px;
+            position: relative;
+            --bg-color: transparent;
+            --icon-color: #6b7280;
+            background-color: var(--bg-color);
+        }
+
+        .ptn-icon-btn svg {
+            width: 28px;
+            height: 28px;
+            transition: fill 0.15s ease;
+            fill: var(--icon-color);
+        }
+
+        /* Button states */
+        .ptn-icon-btn:hover {
+            --bg-color: #f3f4f6;
+            --icon-color: #374151;
+        }
+
+        .ptn-icon-btn:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        .ptn-icon-btn:active {
+            --bg-color: #e5e7eb;
+            --icon-color: #111827;
+            transform: translateY(1px);
+        }
+
+        /* Action-specific colors */
+        .ptn-icon-btn[data-action="details"]:hover {
+            --bg-color: #dbeafe;
+            --icon-color: #2563eb;
+        }
+
+        .ptn-icon-btn[data-action="approve"]:hover {
+            --bg-color: #dcfce7;
+            --icon-color: #16a34a;
+        }
+
+        .ptn-icon-btn[data-action="deny"]:hover {
+            --bg-color: #fee2e2;
+            --icon-color: #dc2626;
+        }
+
+        .ptn-icon-btn[data-action="edit"]:hover {
+            --bg-color: #dbeafe;
+            --icon-color: #2563eb;
+        }
+
+        .ptn-icon-btn[data-action="delete"]:hover {
+            --bg-color: #fee2e2;
+            --icon-color: #dc2626;
+        }
+
+        /* Screen reader only */
+        .ptn-for-sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 760px) {
+            .builder-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ptn-basictable, .ptn-cleantable {
+                border: 0;
+            }
+
+            .ptn-basictable thead, .ptn-cleantable thead {
+                display: none;
+            }
+
+            .ptn-basictable tr, .ptn-cleantable tr {
+                display: block;
+                border-bottom: 1px solid var(--gray-300);
+                padding: .75rem 0;
+            }
+
+            .ptn-basictable td, .ptn-cleantable td {
+                display: block;
+                text-align: right;
+                padding: .75rem;
+                border-bottom: 1px solid var(--gray-200);
+            }
+
+            .ptn-basictable td::before, .ptn-cleantable td::before {
+                content: attr(data-cell);
+                font-weight: 600;
+                color: var(--gray-600);
+                float: left;
+            }
+            .actions-cell {
+                display: grid;
+                grid-auto-flow: column;
+                grid-auto-columns: auto;
+                justify-content: end;
+                gap: 0.25rem;
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG Icon Definitions -->
+    <svg style="display: none">
+        <defs>
+            <!-- Details/Three dots icon -->
+            <symbol id="icon-details" viewBox="0 0 24 24">
+                <g fill-rule="evenodd">
+                    <path d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z"></path>
+                    <path d="M6.91448421,10 C5.85757895,10 5,10.8576331 5,11.9146522 C5,12.9726397 5.85755789,13.8293043 6.91448421,13.8293043 C7.97141053,13.8293043 8.82896842,12.9716712 8.82896842,11.9146522 C8.82896842,10.8576331 7.97141053,10 6.91448421,10 L6.91448421,10 Z"></path>
+                    <path d="M11.6578526,10 C10.5999579,10 9.74336842,10.8576331 9.74336842,11.9146522 C9.74336842,12.9726397 10.6009263,13.8293043 11.6578526,13.8293043 C12.7157474,13.8293043 13.5723368,12.9716712 13.5723368,11.9146522 C13.5723368,10.8576331 12.7147789,10 11.6578526,10 L11.6578526,10 Z"></path>
+                    <path d="M16.4012211,10 C15.3443158,10 14.4867368,10.8576331 14.4867368,11.9146522 C14.4867368,12.9726397 15.3442947,13.8293043 16.4012211,13.8293043 C17.4581474,13.8293043 18.3157053,12.9716712 18.3157053,11.9146522 C18.3157053,10.8576331 17.4581474,10 16.4012211,10 L16.4012211,10 Z"></path>
+                </g>
+            </symbol>
+
+            <!-- Approve/Check icon -->
+            <symbol id="icon-approve" viewBox="0 0 24 24">
+                <g fill-rule="evenodd">
+                    <path d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z"></path>
+                    <path d="M9.5938501,16.673927 C9.30178091,16.673927 9.0018706,16.5586163 8.7789622,16.3357079 C8.32543242,15.8821781 8.32543242,15.151877 8.7789622,14.7059321 L15.8206022,7.66429212 C16.274132,7.21076233 17.0044331,7.21076233 17.450378,7.66429212 C17.9039078,8.11782191 17.9039078,8.848123 17.450378,9.29406791 L10.408738,16.3357079 C10.1857245,16.5586214 9.88594491,16.673927 9.5938501,16.673927 Z"></path>
+                </g>
+            </symbol>
+
+            <!-- Deny/X icon -->
+            <symbol id="icon-deny" viewBox="0 0 24 24">
+                <g fill-rule="evenodd">
+                    <path d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z"></path>
+                    <path d="M15.52082,16.673927 C15.2287508,16.673927 14.9288405,16.5586163 14.7059321,16.3357079 L7.66429212,9.29406791 C7.21076233,8.84053812 7.21076233,8.11023703 7.66429212,7.66429212 C8.11782191,7.21076233 8.848123,7.21076233 9.29406791,7.66429212 L16.3357079,14.7059321 C16.7892377,15.1594619 16.7892377,15.889763 16.3357079,16.3357079 C16.1127944,16.5586214 15.8130173,16.673927 15.52082,16.673927 Z"></path>
+                    <path d="M8.47918001,16.673927 C8.18711083,16.673927 7.88720051,16.5586163 7.66429212,16.3357079 C7.21076233,15.8821781 7.21076233,15.151877 7.66429212,14.7059321 L14.7059321,7.66429212 C15.1594619,7.21076233 15.889763,7.21076233 16.3357079,7.66429212 C16.7892377,8.11782191 16.7892377,8.848123 16.3357079,9.29406791 L9.29406791,16.3357079 C9.07105445,16.5586214 8.77127482,16.673927 8.47918001,16.673927 Z"></path>
+                </g>
+            </symbol>
+
+            <!-- Edit icon -->
+            <symbol id="icon-edit" viewBox="0 0 24 24">
+                <g fill-rule="evenodd">
+                    <path d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z"></path>
+                    <path d="M16.3,6.7 C16.7,6.3 17.3,6.3 17.7,6.7 L18.3,7.3 C18.7,7.7 18.7,8.3 18.3,8.7 L17.5,9.5 L15.5,7.5 L16.3,6.7 Z M14.8,8.2 L16.8,10.2 L10.5,16.5 L8.5,16.5 L8.5,14.5 L14.8,8.2 Z"></path>
+                </g>
+            </symbol>
+
+            <!-- Delete icon -->
+            <symbol id="icon-delete" viewBox="0 0 24 24">
+                <g fill-rule="evenodd">
+                    <path d="M12,24 C5.38116592,24 0,18.6188341 0,12 C0,5.38116592 5.38116592,0 12,0 C18.6188341,0 24,5.38116592 24,12 C24,18.6188341 18.6188341,24 12,24 Z M12,2.30621397 C6.65727098,2.30621397 2.30621397,6.65727098 2.30621397,12 C2.30621397,17.342729 6.65727098,21.693786 12,21.693786 C17.342729,21.693786 21.693786,17.342729 21.693786,12 C21.693786,6.65727098 17.342729,2.30621397 12,2.30621397 Z"></path>
+                    <path d="M8.5,7.5 L15.5,7.5 C15.8,7.5 16,7.7 16,8 C16,8.3 15.8,8.5 15.5,8.5 L15,8.5 L15,16.5 C15,17.1 14.6,17.5 14,17.5 L10,17.5 C9.4,17.5 9,17.1 9,16.5 L9,8.5 L8.5,8.5 C8.2,8.5 8,8.3 8,8 C8,7.7 8.2,7.5 8.5,7.5 Z M10.5,6 L13.5,6 C13.8,6 14,6.2 14,6.5 C14,6.8 13.8,7 13.5,7 L10.5,7 C10.2,7 10,6.8 10,6.5 C10,6.2 10.2,6 10.5,6 Z"></path>
+                </g>
+            </symbol>
+        </defs>
+    </svg>
+
+    <div class="ptn-container">
+        <h1>Action Table Builder</h1>
+        
+        <div class="builder-grid">
+            <div class="control-section">
+                <h2>Configure Your Table</h2>
+                
+                <div class="option-group">
+                    <label>Table Style</label>
+                    <select id="tableStyle">
+                        <option value="ptn-basictable">Basic Table</option>
+                        <option value="ptn-cleantable">Clean Table</option>
+                        <option value="ptn-cleantable ptn-fintable">Financial Table</option>
+                    </select>
+
+                    <label>
+                        <input type="checkbox" id="borderTable"> Add border container
+                    </label>
+                    
+                    <label>
+                        <input type="checkbox" id="fixedTable"> Fixed-width columns
+                    </label>
+                </div>
+
+                <div class="option-group">
+                    <h3>Action Icons</h3>
+                    <div class="action-icons-grid">
+                        <label class="action-icon-option">
+                            <input type="checkbox" data-action="details" data-type="button">
+                            <div class="action-icon-preview">
+                                <svg><use href="#icon-details"/></svg>
+                            </div>
+                            Details
+                        </label>
+                        <label class="action-icon-option">
+                            <input type="checkbox" data-action="approve" data-type="button">
+                            <div class="action-icon-preview">
+                                <svg><use href="#icon-approve"/></svg>
+                            </div>
+                            Approve
+                        </label>
+                        <label class="action-icon-option">
+                            <input type="checkbox" data-action="deny" data-type="button">
+                            <div class="action-icon-preview">
+                                <svg><use href="#icon-deny"/></svg>
+                            </div>
+                            Deny
+                        </label>
+                        <label class="action-icon-option">
+                            <input type="checkbox" data-action="edit" data-type="button">
+                            <div class="action-icon-preview">
+                                <svg><use href="#icon-edit"/></svg>
+                            </div>
+                            Edit
+                        </label>
+                        <label class="action-icon-option">
+                            <input type="checkbox" data-action="delete" data-type="button">
+                            <div class="action-icon-preview">
+                                <svg><use href="#icon-delete"/></svg>
+                            </div>
+                            Delete
+                        </label>
+                    </div>
+                </div>
+
+                <div class="option-group">
+                    <label for="dataInput">Table Data (JSON):</label>
+                    <textarea id="dataInput" rows="10"></textarea>
+                </div>
+
+                <button onclick="generateTable()">Generate Table</button>
+            </div>
+
+            <div class="preview-section">
+                <h2>Preview</h2>
+                <div id="tablePreview"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateTable() {
+            try {
+                const data = JSON.parse(document.getElementById('dataInput').value);
+                const tableStyle = document.getElementById('tableStyle').value;
+                const useBorder = document.getElementById('borderTable').checked;
+                const useFixed = document.getElementById('fixedTable').checked;
+                
+                // Get selected action icons
+                const selectedActions = Array.from(document.querySelectorAll('.action-icons-grid input:checked'))
+                    .map(input => ({
+                        action: input.dataset.action,
+                        type: input.dataset.type
+                    }));
+                
+                let tableHTML = '';
+                
+                if (useBorder) {
+                    tableHTML += '<div class="ptn-table-container">';
+                }
+                
+                let tableClasses = tableStyle;
+                if (useFixed) {
+                    tableClasses += ' ptn-fixed-table';
+                }
+                
+                tableHTML += `<table class="${tableClasses}">`;
+                
+                if (data.caption) {
+                    tableHTML += `<caption class="ptn-for-sr">${data.caption}</caption>`;
+                }
+                
+                // Add headers
+                tableHTML += '<thead><tr>';
+                data.headers.forEach(header => {
+                    tableHTML += `<th scope="col">${header}</th>`;
+                });
+                if (selectedActions.length > 0) {
+                    tableHTML += '<th scope="col" class="actions-cell">Actions</th>';
+                }
+                tableHTML += '</tr></thead>';
+                
+                // Add body
+                tableHTML += '<tbody>';
+                data.rows.forEach((row, rowIndex) => {
+                    tableHTML += '<tr>';
+                    row.forEach((cell, colIndex) => {
+                        tableHTML += `<td data-cell="${data.headers[colIndex]}: ">${cell}</td>`;
+                    });
+                    
+                    if (selectedActions.length > 0) {
+                        tableHTML += '<td class="actions-cell">';
+                        selectedActions.forEach(({action, type}) => {
+                            if (type === 'button') {
+                                tableHTML += `
+                                    <a href="#row-${rowIndex}" class="ptn-icon-btn" data-action="${action}" title="${action}">
+                                        <svg><use href="#icon-${action}"/></svg>
+                                    </a>`;
+                            } else {
+                                tableHTML += `
+                                    <button class="ptn-icon-btn" data-action="${action}" title="${action}">
+                                        <svg><use href="#icon-${action}"/></svg>
+                                    </button>`;
+                            }
+                        });
+                        tableHTML += '</td>';
+                    }
+                    
+                    tableHTML += '</tr>';
+                });
+                tableHTML += '</tbody></table>';
+                
+                if (useBorder) {
+                    tableHTML += '</div>';
+                }
+                
+                document.getElementById('tablePreview').innerHTML = tableHTML;
+                
+                // Add click handlers
+                document.querySelectorAll('#tablePreview .ptn-icon-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const action = this.dataset.action;
+                        console.log(`${action} clicked for row`);
+                        
+                        // Visual feedback
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 150);
+                    });
+                });
+                
+            } catch (error) {
+                alert('Please check your JSON format: ' + error.message);
+            }
+        }
+
+        // Initialize with sample data
+        window.onload = function() {
+            document.getElementById('dataInput').value = JSON.stringify({
+                caption: "Staff Status List",
+                headers: ["Name", "Status", "Date"],
+                rows: [
+                    ["Doe, John", "Pending", "2024-05-12"],
+                    ["Smith, Jane", "Approved", "2024-05-11"],
+                    ["Brown, Bob", "Denied", "2024-05-10"]
+                ]
+            }, null, 2);
+            
+            generateTable();
+        };
+    </script>
+</body>
+</html>
